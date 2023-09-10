@@ -4,6 +4,7 @@ datePublished: Sun Sep 10 2023 02:21:49 GMT+0000 (Coordinated Universal Time)
 cuid: clmctx73z01xzo9nvfihter2c
 slug: setting-up-enterprise-wifi-connections-with-peap-without-a-gui-perfect-for-universities-and-offices
 cover: https://cdn.hashnode.com/res/hashnode/image/stock/unsplash/syCXK9WndqQ/upload/43592eee09200815b3648322e3071a6e.jpeg
+tags: wifi, office, university, pinephone
 
 ---
 
