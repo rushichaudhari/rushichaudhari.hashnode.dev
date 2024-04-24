@@ -8,43 +8,44 @@ tags: ubuntu, linux, cpu, thinkpad, cooling
 
 ---
 
-
 I love Thinkpads. They are robust and durable. And no need to mention about their world class keyboards!
 
 It works like a charm, but we need to configure it a bit for silence. Let's start!
 
-### 1\. Install the necessary package  
+### 1\. Install the necessary package
 
-```
+```plaintext
 sudo apt install thinkfan
 ```
 
-
-### [](https://dev.to/uguremirmustafa/thinkpad-l14-fan-speed-configuration-with-thinkfan-4ch5#2-create-the-configuration-file)2\. Create the configuration file
+### 2\. Create the configuration file
 
 After installing the package we need to create a config file in the following directory: `/etc/thinkfan.conf`
 
 This file requires three main items:
 
--   The fan information
--   The temperature information
--   Speed level for temperature levels
+* The fan information
+    
+* The temperature information
+    
+* Speed level for temperature levels
+    
 
 In order to provide fan information, we write this line:
 
 `tp_fan /proc/acpi/ibm/fan`
 
-For the temperature information we should scan the sensors of the device.  
+For the temperature information we should scan the sensors of the device.
 
-```
+```plaintext
 find /sys/devices -type f -name 'temp*_input'
 ```
 
 Enter fullscreen mode Exit fullscreen mode
 
-Running this comman should give you something like this but **without hwmon** keyword. **Don't forget to add it** in front of each line.  
+Running this comman should give you something like this but **without hwmon** keyword. **Don't forget to add it** in front of each line.
 
-```
+```plaintext
 hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp6_input
 hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp3_input
 hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp7_input
@@ -62,9 +63,9 @@ hwmon /sys/devices/virtual/thermal/thermal_zone0/hwmon5/temp1_input
 
 Enter fullscreen mode Exit fullscreen mode
 
-After adding these lines to the configuration, we need to add our fan speed data for each temperature level. This is a sane configuration for daily usage but **use at your own risk.**  
+After adding these lines to the configuration, we need to add our fan speed data for each temperature level. This is a sane configuration for daily usage but **use at your own risk.**
 
-```
+```plaintext
 # speed level | start temp | end temp
 
 (0, 0,  55)
@@ -80,17 +81,17 @@ Now the config file is ready!
 
 ### 3\. Enable acpi\_fancontrol
 
-We need to enable `acpi_fancontrol` on kernel module options! Add this line to `/etc/modprobe.d/thinkpad_acpi.conf` file:  
+We need to enable `acpi_fancontrol` on kernel module options! Add this line to `/etc/modprobe.d/thinkpad_acpi.conf` file:
 
-```
+```plaintext
 options thinkpad_acpi fan_control=1
 ```
 
 Enter fullscreen mode Exit fullscreen mode
 
-Activate kernel settings by running this:  
+Activate kernel settings by running this:
 
-```
+```plaintext
 sudo modprobe -r thinkpad_acpi && sudo modprobe thinkpad_acpi
 ```
 
@@ -98,9 +99,9 @@ Enter fullscreen mode Exit fullscreen mode
 
 ### 4\. Enable the thinkpan.service
 
-In order to start the service any time you boot up your machine, we need to enable it!  
+In order to start the service any time you boot up your machine, we need to enable it!
 
-```
+```plaintext
 sudo systemctl enable --now thinkfan.service
 ```
 
@@ -108,8 +109,8 @@ Enter fullscreen mode Exit fullscreen mode
 
 ### 5\. Done!
 
-You can check if the service is running or not with this command:  
+You can check if the service is running or not with this command:
 
-```
+```plaintext
 sudo systemctl status thinkfan.service
 ```
