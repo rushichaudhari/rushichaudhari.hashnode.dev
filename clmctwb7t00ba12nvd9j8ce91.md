@@ -8,48 +8,46 @@ tags: ubuntu, raspberry-pi, rtl, sdr, hackrf
 
 ---
 
-I just got an SDR, and I am thrilled to explore the expansive world of Software-Defined Radio with you! In this beginner's guide, I will walk you through the essential tools you'll need to kickstart your SDR journey. 
+I just got an SDR, and I am thrilled to explore the expansive world of Software-Defined Radio with you! In this beginner's guide, I will walk you through the essential tools you'll need to kickstart your SDR journey.
 
 ## We Need
+
 1. RTL SDR Dongle
+    
 2. RTL SDR Software
+    
 3. Computer
-```
+    
+
+```plaintext
 SDR works by receiving a analogue radio signal and then using an analog to digital converter to  digitalise the signal. The digitalised signal can then be worked in digital processing software.
 
 We need
 GQRX  -> osx/ linux
-
-```
-git clone https://github.com/csete/gqrx.git
-cd gqrx
-mkdir build
-cd build
-qmake ..
-make
-make install 
 ```
 
-```
-sudo apt-get update
-sudo apt install git cmake libusb-1.0-0.dev build-essential
+git clone https://github.com/csete/gqrx.git cd gqrx mkdir build cd build qmake .. make make install
+
+```plaintext
+sudo apt-get update sudo apt install git cmake libusb-1.0-0.dev build-essential
 ```
 
+```plaintext
 ### Rtl2832u- osmocom driver
-```
-git clone https://github.com/osmocom/rtl-sdr
-cd rtl-sdr
-mkdir build cd build cmake ..
-make
-make install
+git clone https://github.com/osmocom/rtl-sdr 
+cd rtl-sdr 
+mkdir build 
+cd build cmake .. make make install
 ```
 
+```plaintext
 ## Examples of rtl_fm used
-RTL_FM needs to be piped into an auto player that can play raw_audio such as sox or aplay
+sudo apt install sox rtl_fm -M wbfm -f 91.10M | play -r 32000 -t raw -e s -b 16 -c 1 -V1
 ```
-sudo apt install sox
-rtl_fm -M wbfm -f 91.10M | play -r 32000 -t raw -e s -b 16 -c 1 -V1
-```
+
+RTL\_FM needs to be piped into an auto player that can play raw\_audio such as sox or aplay
+
+```plaintext
 
 ## Calibrating RTL-SDR
 
@@ -67,8 +65,10 @@ kalibrate is a linux tool to auto calibrate. It requires that there are local GS
 GSM signals are used because they transmit frequency correction data which calibrate can use to determine the clock offset.
 Let us scan for gsm 900 bands with 50db gain
 ```
+
 kal -s GSM900 -g 50 #using this you will get the offset range
-```
+
+```plaintext
 
 | GENERAL FREQUENCIES | Mhz  |
 | ------------- |:-------------:|
@@ -121,3 +121,4 @@ In aviation, ACARS is a digital communication system for transmission of short m
 |136.850  |  SITA North American Frequency|
 |136.750  |  New European frequency|
 |131.850  |  New European frequency|
+```
