@@ -11,7 +11,7 @@ I've been exploring LoRA and was seeking a straightforward implementation exampl
 
 I came across some examples using LoRA with BERT, DistillBert, and others involving a Linear() layer. However, I'm specifically interested in applying it to GPT2, which uses a Conv1D() layer instead of Linear().
 
-# Background on Lora
+# Background
 
 The depth of layers in deep learning models has increased substantially, Fine-tuning such large models as GPT, however, poses a significant challenge due to the extensive time required—ranging from several days to weeks, or even months. To address this issue, researchers at Microsoft developed the Low Rank Adaptation (LoRA) technique to streamline the fine-tuning process. LoRA leverages the concept of low-rank matrix decomposition. It has been observed that common pre-trained models can be effectively fine-tuned or adapted using only a small subset of their original parameters, rather than needing to modify every parameter, which can be as effective for fine-tuning purposes as utilizing the full parameter space.
 
