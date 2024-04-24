@@ -108,6 +108,36 @@ model = GPT2LMHeadModel.from_pretrained(model_name)
 print(model)
 ```
 
+```plaintext
+GPT2LMHeadModel(
+  (transformer): GPT2Model(
+    (wte): Embedding(50257, 768)
+    (wpe): Embedding(1024, 768)
+    (drop): Dropout(p=0.1, inplace=False)
+    (h): ModuleList(
+      (0-11): 12 x GPT2Block(
+        (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): GPT2Attention(
+          (c_attn): Conv1D()
+          (c_proj): Conv1D()
+          (attn_dropout): Dropout(p=0.1, inplace=False)
+          (resid_dropout): Dropout(p=0.1, inplace=False)
+        )
+        (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): GPT2MLP(
+          (c_fc): Conv1D()
+          (c_proj): Conv1D()
+          (act): NewGELUActivation()
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (ln_f): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+  )
+  (lm_head): Linear(in_features=768, out_features=50257, bias=False)
+)
+```
+
 Contrary to the examples referenced, this model doesn't use a Linear() layer but instead features a Conv1D() layer, which is mathematically equivalent. The concept remains the same, though the implementation differs. Let's proceed by creating a LoRA wrapper specifically tailored for it.
 
 Note that we have frozen the base models parameters so only lora weights get trained.
@@ -228,6 +258,44 @@ def update_model_layers(model):
 
 ```python
 print(update_model_layers(model))
+```
+
+```plaintext
+GPT2LMHeadModel(
+  (transformer): GPT2Model(
+    (wte): Embedding(50257, 768)
+    (wpe): Embedding(1024, 768)
+    (drop): Dropout(p=0.1, inplace=False)
+    (h): ModuleList(
+      (0-11): 12 x GPT2Block(
+        (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (attn): GPT2Attention(
+          (c_attn): LoRAConv1DWrapper(
+            (base_module): Conv1D()
+          )
+          (c_proj): LoRAConv1DWrapper(
+            (base_module): Conv1D()
+          )
+          (attn_dropout): Dropout(p=0.1, inplace=False)
+          (resid_dropout): Dropout(p=0.1, inplace=False)
+        )
+        (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+        (mlp): GPT2MLP(
+          (c_fc): LoRAConv1DWrapper(
+            (base_module): Conv1D()
+          )
+          (c_proj): LoRAConv1DWrapper(
+            (base_module): Conv1D()
+          )
+          (act): NewGELUActivation()
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (ln_f): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+  )
+  (lm_head): Linear(in_features=768, out_features=50257, bias=False)
+)
 ```
 
 ```python
